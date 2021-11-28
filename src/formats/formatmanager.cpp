@@ -33,9 +33,11 @@
 #include "subviewer2/subviewer2outputformat.h"
 #include "tmplayer/tmplayerinputformat.h"
 #include "tmplayer/tmplayeroutputformat.h"
+#include "vobsub/vobsubinputformat.h"
+#include "webvtt/webvttinputformat.h"
+#include "webvtt/webvttoutputformat.h"
 #include "youtubecaptions/youtubecaptionsinputformat.h"
 #include "youtubecaptions/youtubecaptionsoutputformat.h"
-#include "vobsub/vobsubinputformat.h"
 
 #include <QFile>
 #include <QFileInfo>
@@ -64,6 +66,7 @@ FormatManager::instance()
 
 FormatManager::FormatManager()
 {
+	IN_OUT_FORMAT(WebVTT)
 	IN_OUT_FORMAT(SubRip)
 	IN_OUT_FORMAT(MicroDVD)
 	IN_OUT_FORMAT(MPlayer)

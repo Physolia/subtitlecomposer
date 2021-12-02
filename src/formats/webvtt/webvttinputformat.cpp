@@ -7,6 +7,7 @@
 #include "webvttinputformat.h"
 
 #include "core/richdocument.h"
+#include "core/subtitle.h"
 #include "helpers/common.h"
 
 #include <QRegularExpression>
@@ -49,23 +50,35 @@ WebVTTInputFormat::parseSubtitles(Subtitle &subtitle, const QString &data) const
 		return false;
 
 	int off = skipTextBlock(data, 6);
-	// TODO: save optional header somewhere
+	int end;
+	const QStringRef hdr = data.midRef(6, off).trimmed();
+	if(!hdr.isEmpty())
+		subtitle.meta("comment.intro.0", hdr.toString());
 
+	QVector<QStringRef> notes;
+	int noteId = 0;
 	staticRE$(reTime, "(?:([0-9]{2,}):)?([0-5][0-9]):([0-5][0-9])\\.([0-9]{3}) --> (?:([0-9]{2,}):)?([0-5][0-9]):([0-5][0-9])\\.([0-9]{3})\\b([^\\n]*)", REu);
 
 	while(off < data.length()) {
 		if(data.midRef(off, 5) == $("STYLE")) {
-			// NOTE: styles can't appear after first cue/line
+			if(!notes.isEmpty()) { // store note before style
+				for(const QStringRef &note: notes)
+					subtitle.meta(QByteArray("comment.top.") + QByteArray::number(noteId++), note.toString());
+				notes.clear();
+			}
+			// NOTE: styles can't appear after first cue/line, even if we're not forbidding it
 			// TODO: support styles
-			off = skipTextBlock(data, off + 5);
+			end = skipTextBlock(data, off + 5);
+			off = end;
 			continue;
 		}
 		if(data.midRef(off, 4) == $("NOTE")) {
-			// TODO: save notes somewhere
-			off = skipTextBlock(data, off + 4);
+			end = skipTextBlock(data, off += 4);
+			notes.push_back(data.midRef(off, end).trimmed());
+			off = end;
 			continue;
 		}
-		int end = skipTextLine(data, off);
+		end = skipTextLine(data, off);
 		QStringRef cueId = data.midRef(off, end - off).trimmed();
 		QStringRef cueTime;
 		const bool hasCue = !cueId.contains($("-->"));
@@ -98,7 +111,22 @@ WebVTTInputFormat::parseSubtitles(Subtitle &subtitle, const QString &data) const
 
 		SubtitleLine *line = new SubtitleLine(showTime, hideTime);
 		line->primaryDoc()->setRichText(stext, true);
+
+		if(!notes.isEmpty()) {
+			QString comment;
+			for(const QStringRef &note: notes)
+				comment.append(note);
+			notes.clear();
+			line->meta("comment", comment);
+		}
 		subtitle.insertLine(line);
+	}
+
+	if(!notes.isEmpty()) {
+		noteId = 0;
+		for(const QStringRef &note: notes)
+			subtitle.meta(QByteArray("comment.bottom.") + QByteArray::number(noteId++), note.toString());
+		notes.clear();
 	}
 
 	return true;

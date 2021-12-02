@@ -81,11 +81,6 @@ protected:
 		subtitle.setFormatData(formatData);
 	}
 
-	void setFormatData(Subtitle &subtitle, FormatData &formatData) const
-	{
-		subtitle.setFormatData(&formatData);
-	}
-
 	FormatData * formatData(const SubtitleLine *line) const
 	{
 		FormatData *formatData = line->formatData();
@@ -95,11 +90,6 @@ protected:
 	void setFormatData(SubtitleLine *line, FormatData *formatData) const
 	{
 		line->setFormatData(formatData);
-	}
-
-	void setFormatData(SubtitleLine *line, FormatData &formatData) const
-	{
-		line->setFormatData(&formatData);
 	}
 
 	QString m_name;

@@ -205,6 +205,11 @@ public:
 
 	int check(int errorFlagsToCheck, bool update = true);
 
+	inline const QString meta(const char *key) const { return m_metaData.value(QLatin1String(key)); }
+	inline const QString meta(const QLatin1String &key) const { return m_metaData.value(key); }
+	inline void meta(const char *key, const QString &value) { m_metaData.insert(QLatin1String(key), value); }
+	inline void meta(const QLatin1String &key, const QString &value) { m_metaData.insert(key, value); }
+
 signals:
 	void primaryTextChanged();
 	void secondaryTextChanged();
@@ -241,6 +246,8 @@ private:
 	Time m_hideTime;
 	int m_errorFlags;
 	bool m_ignoreDocChanges = false;
+
+	QMap<QLatin1String, QString> m_metaData;
 
 	FormatData *m_formatData;
 

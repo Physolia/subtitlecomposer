@@ -21,6 +21,7 @@
 #include <QString>
 #include <QStringList>
 #include <QList>
+#include <QMap>
 
 QT_FORWARD_DECLARE_CLASS(QUndoCommand)
 
@@ -162,6 +163,11 @@ public:
 	void checkErrors(const RangeList &ranges, int errorFlags);
 	void recheckErrors(const RangeList &ranges);
 
+	inline const QString meta(const char *key) const { return m_metaData.value(QLatin1String(key)); }
+	inline const QString meta(const QLatin1String &key) const { return m_metaData.value(key); }
+	inline void meta(const char *key, const QString &value) { m_metaData.insert(QLatin1String(key), value); }
+	inline void meta(const QLatin1String &key, const QString &value) { m_metaData.insert(key, value); }
+
 signals:
 	void primaryChanged();
 	void secondaryChanged();
@@ -217,6 +223,8 @@ private:
 	double m_framesPerSecond;
 	mutable QVector<ObjectRef<SubtitleLine>> m_lines;
 	QList<const SubtitleLine *> m_anchoredLines;
+
+	QMap<QLatin1String, QString> m_metaData;
 
 	FormatData *m_formatData;
 

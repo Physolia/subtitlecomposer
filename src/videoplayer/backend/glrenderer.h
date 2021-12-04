@@ -68,7 +68,7 @@ private:
 
 private:
 	SubtitleTextOverlay *m_overlay;
-	GLfloat m_overlayPos[8];
+	GLfloat m_overlayPos[8] = {0};
 	quint8 *m_mmOvr;
 
 	QOpenGLVertexArrayObject m_vao;

@@ -308,8 +308,6 @@ PlayerWidget::saveConfig()
 void
 PlayerWidget::setFullScreenMode(bool fullScreenMode)
 {
-	VideoPlayer::instance()->subtitleOverlay().setRenderScale(fullScreenMode ? 1.0 : 1.2);
-
 	if(m_fullScreenMode == fullScreenMode)
 		return;
 

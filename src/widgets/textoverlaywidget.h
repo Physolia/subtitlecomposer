@@ -38,8 +38,7 @@ public:
 	QColor outlineColor() const { return m_overlay.outlineColor(); }
 
 	QSize minimumSizeHint() const override;
-
-	bool eventFilter(QObject *object, QEvent *event) override;
+	QSize sizeHint() const override;
 
 public slots:
 	void setText(const QString &text) { m_overlay.setText(text); update(); }
@@ -50,6 +49,7 @@ public slots:
 	void setOutlineColor(const QColor &color) { m_overlay.setOutlineColor(color); update(); }
 
 protected:
+	void resizeEvent(QResizeEvent *event) override;
 	void paintEvent(QPaintEvent *event) override;
 
 private:

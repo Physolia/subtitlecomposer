@@ -11,6 +11,7 @@
 #include <QApplication>
 #include <QPainter>
 #include <QSharedPointer>
+#include <QSet>
 #include <QStyle>
 #include <QStyleOptionViewItem>
 #include <QTextDocumentFragment>
@@ -119,12 +120,28 @@ RichDocument::toHtml() const
 	bool fS = false;
 	QRgb fC = 0;
 
+	QSet<QString> classList;
 	for(QTextBlock bi = begin(); bi != end(); bi = bi.next()) {
 		for(QTextBlock::iterator it = bi.begin(); !it.atEnd(); ++it) {
 			const QTextFragment &f = it.fragment();
 			if(!f.isValid())
 				continue;
 			const QTextCharFormat &format = f.charFormat();
+			const QSet<QString> &cl = format.property(Class).value<QSet<QString>>();
+			for(auto it = classList.begin(); it != classList.end();) {
+				if(cl.contains(*it)) {
+					++it;
+					continue;
+				}
+				html.append($("</c.%1>").arg(*it));
+				it = classList.erase(it);
+			}
+			for(auto it = cl.cbegin(); it != cl.cend(); ++it) {
+				if(classList.contains(*it))
+					continue;
+				html.append($("<c.%1>").arg(*it));
+				classList.insert(*it);
+			}
 			if(fB != (format.fontWeight() == QFont::Bold))
 				html.append((fB = !fB) ? $("<b>") : $("</b>"));
 			if(fI != format.fontItalic())
@@ -305,6 +322,7 @@ RichDocument::cummulativeStyleFlags() const
 			if(!f.isValid())
 				continue;
 			const QTextCharFormat &format = f.charFormat();
+			// FIXME: consider classes/styles/css
 			if(format.fontWeight() == QFont::Bold)
 				flags |= SubtitleComposer::SString::Bold;
 			if(format.fontItalic())

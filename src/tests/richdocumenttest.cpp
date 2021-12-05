@@ -8,9 +8,10 @@
 
 #include "helpers/common.h"
 
+#include <QDebug>
 #include <QRegularExpression>
 #include <QTest>
-#include <QDebug>
+#include <QTextDocumentFragment>
 
 using namespace SubtitleComposer;
 
@@ -344,6 +345,38 @@ RichDocumentTest::testTitle()
 	doc.setPlainText(input);
 	doc.toSentenceCase(&sentenceStart, true, true);
 	QCOMPARE(doc.toPlainText(), expected);
+}
+
+void
+RichDocumentTest::testClass()
+{
+	QTextCursor *c = doc.undoableCursor();
+	doc.setPlainText($("The quick brown fox jumps over the lazy dog"));
+	QVERIFY(c->movePosition(QTextCursor::Start));
+
+	{
+		QVERIFY(c->movePosition(QTextCursor::Right, QTextCursor::MoveAnchor, 4));
+		QVERIFY(c->movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, 11));
+		QCOMPARE(c->selectedText(), $("quick brown"));
+		QTextCharFormat fmt;
+		fmt.setFontWeight(QFont::Bold);
+		c->mergeCharFormat(fmt);
+		QCOMPARE(c->selectedText(), $("quick brown"));
+		c->clearSelection();
+	}
+	{
+		QVERIFY(c->movePosition(QTextCursor::Left, QTextCursor::MoveAnchor, 5));
+		QVERIFY(c->movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, 9));
+		QCOMPARE(c->selectedText(), $("brown fox"));
+		QTextCharFormat fmt;
+		QSet<QString> classList;
+		classList.insert($("test-class"));
+		fmt.setProperty(RichDocument::Class, QVariant::fromValue(classList));
+		c->mergeCharFormat(fmt);
+		QCOMPARE(c->selectedText(), $("brown fox"));
+		c->clearSelection();
+	}
+	qDebug() << doc.toHtml();
 }
 
 QTEST_GUILESS_MAIN(RichDocumentTest)

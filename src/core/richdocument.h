@@ -12,6 +12,7 @@
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QTextFormat>
 #include <QObject>
 #include <QPalette>
 
@@ -25,6 +26,12 @@ class RichDocument : public QTextDocument
 	Q_OBJECT
 
 public:
+	enum Property {
+		Class = QTextFormat::UserProperty,
+		Voice = QTextFormat::UserProperty + 1,
+	};
+	Q_ENUM(Property)
+
 	explicit RichDocument(QObject *parent=nullptr);
 	virtual ~RichDocument();
 

@@ -6,7 +6,7 @@
 
 #include "wavesubtitle.h"
 
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "core/subtitleline.h"
 #include "gui/waveform/waverenderer.h"
 

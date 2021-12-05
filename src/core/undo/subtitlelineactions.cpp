@@ -6,7 +6,7 @@
 */
 
 #include "subtitlelineactions.h"
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "core/subtitle.h"
 
 #include <KLocalizedString>

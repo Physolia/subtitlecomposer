@@ -9,7 +9,7 @@
 #include <QTest>
 
 #include "application.h"
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 
 using namespace SubtitleComposer;
 

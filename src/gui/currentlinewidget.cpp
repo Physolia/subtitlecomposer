@@ -7,7 +7,7 @@
 
 #include "currentlinewidget.h"
 #include "application.h"
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "helpers/common.h"
 #include "widgets/timeedit.h"
 #include "widgets/simplerichtextedit.h"

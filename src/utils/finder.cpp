@@ -6,7 +6,7 @@
 */
 
 #include "finder.h"
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "core/subtitleiterator.h"
 
 #include <QGroupBox>

@@ -6,7 +6,7 @@
 
 #include "config.h"
 
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "helpers/pluginhelper.h"
 #include "speechprocessor.h"
 #include "speechplugin.h"

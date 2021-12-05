@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 
 #ifdef DrawText
 #  undef DrawText

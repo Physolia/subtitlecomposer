@@ -8,7 +8,7 @@
 #ifndef MPLAYERINPUTFORMAT_H
 #define MPLAYERINPUTFORMAT_H
 
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "formats/inputformat.h"
 
 #include <QRegExp>

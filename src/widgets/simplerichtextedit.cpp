@@ -10,7 +10,7 @@
 #include "application.h"
 #include "actions/useractionnames.h"
 #include "core/undo/undostack.h"
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "dialogs/subtitlecolordialog.h"
 
 #include <QRegExp>

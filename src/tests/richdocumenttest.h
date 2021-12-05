@@ -7,7 +7,7 @@
 #ifndef RICHDOCUMENTTEST_H
 #define RICHDOCUMENTTEST_H
 
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 
 class RichDocumentTest : public QObject
 {

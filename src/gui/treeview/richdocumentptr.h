@@ -7,7 +7,7 @@
 #ifndef RICHDOCUMENTPTR_H
 #define RICHDOCUMENTPTR_H
 
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 
 namespace SubtitleComposer {
 

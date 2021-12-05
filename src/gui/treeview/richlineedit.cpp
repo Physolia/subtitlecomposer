@@ -8,7 +8,7 @@
 
 #include "application.h"
 #include "actions/useractionnames.h"
-#include "core/richdocumenteditor.h"
+#include "core/richtext/richdocumenteditor.h"
 #include "dialogs/subtitlecolordialog.h"
 
 #include <QDrag>

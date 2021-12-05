@@ -8,7 +8,7 @@
 
 #include "application.h"
 #include "scconfig.h"
-#include "core/richdocument.h"
+#include "core/richtext/richdocument.h"
 #include "gui/waveform/wavebuffer.h"
 #include "gui/waveform/waveformwidget.h"
 #include "gui/waveform/wavesubtitle.h"
